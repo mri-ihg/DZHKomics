@@ -1,0 +1,196 @@
+-- MySQL dump 10.15  Distrib 10.0.35-MariaDB, for Linux (x86_64)
+--
+-- Host: localhost    Database: dzhkomics
+-- ------------------------------------------------------
+-- Server version	10.0.35-MariaDB
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `clinvar`
+--
+
+DROP TABLE IF EXISTS `clinvar`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `clinvar` (
+  `chrom` varchar(45) NOT NULL,
+  `start` int(11) NOT NULL,
+  `ref` varchar(255) NOT NULL,
+  `alt` varchar(255) NOT NULL,
+  `rcv` varchar(15) NOT NULL,
+  `path` varchar(100) NOT NULL,
+  KEY `chromstart` (`chrom`,`start`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `consequences`
+--
+
+DROP TABLE IF EXISTS `consequences`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `consequences` (
+  `score` int(2) unsigned NOT NULL DEFAULT '0',
+  `consequence` varchar(34) NOT NULL DEFAULT '',
+  `type` int(2) unsigned NOT NULL DEFAULT '0',
+  KEY `consequence` (`consequence`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `transcripts`
+--
+
+DROP TABLE IF EXISTS `transcripts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `transcripts` (
+  `idtranscript` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `idvariant` int(10) unsigned NOT NULL DEFAULT '0',
+  `viewit` int(1) unsigned NOT NULL DEFAULT '0',
+  `chrom` char(2) NOT NULL DEFAULT '',
+  `pos` int(10) unsigned NOT NULL DEFAULT '0',
+  `ref` varchar(4096) NOT NULL DEFAULT '',
+  `alt` varchar(4096) NOT NULL DEFAULT '',
+  `allele` varchar(4096) NOT NULL DEFAULT '',
+  `consequence` varchar(1024) NOT NULL DEFAULT '',
+  `impact` varchar(45) NOT NULL DEFAULT '',
+  `symbol` varchar(45) NOT NULL DEFAULT '',
+  `gene` varchar(45) NOT NULL DEFAULT '',
+  `feature_type` char(45) NOT NULL DEFAULT '',
+  `feature` varchar(45) NOT NULL DEFAULT '',
+  `biotype` varchar(45) NOT NULL DEFAULT '',
+  `exon` char(10) NOT NULL DEFAULT '',
+  `intron` char(10) NOT NULL DEFAULT '',
+  `hgvsc` varchar(4096) NOT NULL DEFAULT '',
+  `hgvsp` varchar(1024) NOT NULL DEFAULT '',
+  `cdna_position` varchar(45) NOT NULL DEFAULT '',
+  `cds_position` varchar(45) NOT NULL DEFAULT '',
+  `protein_position` varchar(45) NOT NULL DEFAULT '',
+  `amino_acids` varchar(1024) NOT NULL DEFAULT '',
+  `codons` varchar(1024) NOT NULL DEFAULT '',
+  `rsid` varchar(1024) NOT NULL DEFAULT '',
+  `allele_num` int(10) DEFAULT NULL,
+  `distance` int(10) DEFAULT NULL,
+  `strand` int(2) DEFAULT NULL,
+  `flags` varchar(45) NOT NULL DEFAULT '',
+  `variation_class` varchar(45) NOT NULL DEFAULT '',
+  `minimised` int(10) DEFAULT NULL,
+  `symbol_source` varchar(45) NOT NULL DEFAULT '',
+  `hgnc_id` varchar(45) NOT NULL DEFAULT '',
+  `canonical` char(3) NOT NULL DEFAULT '',
+  `tsl` varchar(45) NOT NULL DEFAULT '',
+  `appris` varchar(45) NOT NULL DEFAULT '',
+  `ccds` varchar(45) NOT NULL DEFAULT '',
+  `ensp` varchar(45) NOT NULL DEFAULT '',
+  `swissprot` varchar(45) NOT NULL DEFAULT '',
+  `trembl` varchar(2048) NOT NULL DEFAULT '',
+  `uniparc` varchar(45) NOT NULL DEFAULT '',
+  `gene_pheno` varchar(45) NOT NULL DEFAULT '',
+  `sift` varchar(45) NOT NULL DEFAULT '',
+  `polyphen` varchar(45) NOT NULL DEFAULT '',
+  `domains` varchar(1024) NOT NULL DEFAULT '',
+  `hgvs_offset` int(10) DEFAULT NULL,
+  `clin_sig` varchar(255) NOT NULL DEFAULT '',
+  `somatic` varchar(255) NOT NULL DEFAULT '',
+  `pheno` varchar(255) NOT NULL DEFAULT '',
+  `pubmed` varchar(2048) NOT NULL DEFAULT '',
+  `motif_name` varchar(45) NOT NULL DEFAULT '',
+  `motif_pos` varchar(45) NOT NULL DEFAULT '',
+  `high_inf_pos` varchar(45) NOT NULL DEFAULT '',
+  `motif_score_change` varchar(45) NOT NULL DEFAULT '',
+  `lof` char(2) NOT NULL DEFAULT '',
+  `lof_filter` varchar(255) NOT NULL DEFAULT '',
+  `lof_flags` varchar(45) NOT NULL DEFAULT '',
+  `lof_info` varchar(1024) NOT NULL DEFAULT '',
+  PRIMARY KEY (`idtranscript`),
+  KEY `idvariant` (`idvariant`),
+  KEY `chrom` (`chrom`,`pos`,`ref`(25),`alt`(25)),
+  KEY `gene` (`symbol`),
+  KEY `rsid` (`rsid`(1000)),
+  KEY `consequence` (`consequence`(1000)),
+  KEY `canonical` (`canonical`)
+) ENGINE=MyISAM AUTO_INCREMENT=108420697 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `variants`
+--
+
+DROP TABLE IF EXISTS `variants`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `variants` (
+  `idvariant` int(10) unsigned NOT NULL DEFAULT '0',
+  `chrom` char(2) NOT NULL DEFAULT '',
+  `pos` int(10) unsigned NOT NULL DEFAULT '0',
+  `id` char(1) NOT NULL DEFAULT '',
+  `ref` varchar(4096) NOT NULL DEFAULT '',
+  `alt` varchar(4096) NOT NULL DEFAULT '',
+  `qual` float NOT NULL DEFAULT '0',
+  `filter` varchar(45) NOT NULL DEFAULT '',
+  `AC` int(10) unsigned NOT NULL DEFAULT '0',
+  `AN` int(10) unsigned NOT NULL DEFAULT '0',
+  `AF` float DEFAULT NULL,
+  `FS` float DEFAULT NULL,
+  `InbreedingCoeff` float DEFAULT NULL,
+  `MQ` float DEFAULT NULL,
+  `MQRankSum` float DEFAULT NULL,
+  `QD` float DEFAULT NULL,
+  `ReadPosRankSum` float DEFAULT NULL,
+  `SOR` float NOT NULL DEFAULT '0',
+  `VQSR_POSITIVE_TRAIN_SITE` varchar(24) NOT NULL DEFAULT '',
+  `VQSR_NEGATIVE_TRAIN_SITE` varchar(24) NOT NULL DEFAULT '',
+  `BaseQRankSum` float DEFAULT NULL,
+  `DP` int(10) unsigned NOT NULL DEFAULT '0',
+  `VQSLOD` float NOT NULL DEFAULT '0',
+  `VQSR_culprit` varchar(45) NOT NULL DEFAULT '',
+  `segdup` varchar(45) NOT NULL DEFAULT '',
+  `lcr` char(3) NOT NULL DEFAULT '',
+  `rf_label` char(2) NOT NULL DEFAULT '',
+  `rf_train` char(8) NOT NULL DEFAULT '',
+  `rf_tp_probability` float DEFAULT NULL,
+  `variant_type` varchar(28) NOT NULL DEFAULT '',
+  `allele_type` varchar(28) NOT NULL DEFAULT '',
+  `was_split` char(9) NOT NULL DEFAULT '',
+  `was_mixed` char(9) NOT NULL DEFAULT '',
+  `has_star` char(8) NOT NULL DEFAULT '',
+  `AC_raw` int(10) unsigned NOT NULL DEFAULT '0',
+  `AF_raw` float DEFAULT NULL,
+  `AN_raw` int(10) unsigned NOT NULL DEFAULT '0',
+  `nhomalt_raw` int(10) unsigned NOT NULL DEFAULT '0',
+  `nhomalt` int(10) unsigned NOT NULL DEFAULT '0',
+  `nhemialt_raw` int(10) unsigned NOT NULL DEFAULT '0',
+  `nhemialt` int(10) unsigned NOT NULL DEFAULT '0',
+  `VQSR` varchar(45) NOT NULL DEFAULT '',
+  `DeepVariant` char(11) NOT NULL DEFAULT '',
+  `giab` char(4) NOT NULL DEFAULT '',
+  `bamhet` char(2) NOT NULL DEFAULT '',
+  `bamhom` char(2) NOT NULL DEFAULT '',
+  PRIMARY KEY (`idvariant`),
+  KEY `chrom` (`chrom`,`pos`,`ref`(25),`alt`(25)),
+  KEY `filter` (`filter`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2020-05-01 17:37:46
