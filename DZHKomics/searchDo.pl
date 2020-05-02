@@ -7,12 +7,10 @@
 
 use lib '.';
 use strict;
-use CGI;
-use CGI::Carp qw(fatalsToBrowser);
 use Dzhk;
 
-my $cgiquery    = new CGI;
-my $ref         = $cgiquery->Vars;
+my $cgi         = new CGI;
+my $ref         = $cgi->Vars;
 my $dzhk	= new Dzhk;
 
 ########################################################################
@@ -21,8 +19,8 @@ my $dzhk	= new Dzhk;
 
 $dzhk->printHeader();
 
+$ref = $dzhk->htmlencodehash($ref);
 
 $dzhk->searchResults($ref);
-
 
 $dzhk->printFooter();

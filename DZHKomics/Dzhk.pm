@@ -7,6 +7,7 @@ package Dzhk;
 use warnings;
 use CGI;
 use DBI;
+use HTML::Entities;
 
 my $ihg4 = 0;
 my $text = "";
@@ -73,7 +74,7 @@ print qq(Examples - Gene: <a href='searchDo.pl?searchterm=FGF23'>FGF23</a>,
 Position: <a href='searchDo.pl?searchterm=12:4477393-4488894'>12:4477393-4488894</a>
  - maximally 10,000 variants.<br><br>);
  
-print qq(<input type="checkbox"  checked value="loh" name="loh">LoH &nbsp;&nbsp;&nbsp;);
+print qq(<input type="checkbox"  checked value="lof" name="lof">LoF &nbsp;&nbsp;&nbsp;);
 print qq(<input type="checkbox"  checked value="missense" name="missense">Missense &nbsp;&nbsp;&nbsp;);
 print qq(<input type="checkbox"  checked value="synonymous" name="synonymous">Synonymous &nbsp;&nbsp;&nbsp;);
 print qq(<input type="checkbox"  value="other" name="other">Other &nbsp;&nbsp;&nbsp;);
@@ -173,14 +174,14 @@ sub searchResults {
 my $self       = shift;
 my $ref        = shift;
 my $searchterm = $ref->{'searchterm'};
-my $loh        = $ref->{'loh'};
+my $lof        = $ref->{'lof'};
 my $missense   = $ref->{'missense'};
 my $synonymous = $ref->{'synonymous'};
 my $other      = $ref->{'other'};
 my $filtered   = $ref->{'filtered'};
 my $where      = "";
 
-if ($loh eq "loh") {
+if ($lof eq "lof") {
 	$where .= " AND (c.type='3' ";
 }
 if ($missense eq "missense") {
@@ -1128,6 +1129,51 @@ print qq(
 </script>
 );
 
+}
+########################################################################
+# htmlencode
+########################################################################
+
+sub htmlencode {
+	my $self    = shift;
+	my $string  = shift;
+	HTML::Entities::encode($string);
+	return($string);
+}
+########################################################################
+# htmlencodehash
+########################################################################
+
+sub htmlencodehash {
+	my $self     = shift;
+	my $ref      = shift;
+	my $key      = "";
+	my $tt       = chr(0);
+	my $tmp      = "";
+	my @tmp      = ();
+	my $checkbox = "";
+	my $i        = 0;
+	for $key (keys %$ref) {
+		if ($ref->{$key} =~ /$tt/) {   # for checkbox_group
+			$i        = 0;
+			$checkbox = "";
+			$tmp = $ref->{$key};
+			@tmp = split(/$tt/,$tmp);
+			foreach $tmp (@tmp) {
+				HTML::Entities::encode($tmp);
+				if ($i >= 1) {
+					$checkbox = $checkbox . $tt;
+				}
+				$checkbox = $checkbox . $tmp;
+				$i++;
+			}
+			$ref->{$key} = $checkbox;
+		}
+		else {
+			HTML::Entities::encode($ref->{$key});
+		}
+	}
+	return($ref);
 }
 ########################################################################
 # printHeader
