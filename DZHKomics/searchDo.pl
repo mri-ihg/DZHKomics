@@ -17,6 +17,8 @@ my $dzhk	= new Dzhk;
 # main
 ########################################################################
 
+$dzhk->init($ref);
+
 $dzhk->printHeader();
 
 $ref = $dzhk->htmlencodehash($ref);

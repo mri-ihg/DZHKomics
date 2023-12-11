@@ -8,11 +8,16 @@ use lib '.';
 use strict;
 use Dzhk;
 
+my $cgi         = new CGI;
+my $ref         = $cgi->Vars;
 my $dzhk	= new Dzhk;
+
 
 ########################################################################
 # main
 ########################################################################
+
+$dzhk->init($ref);
 
 $dzhk->printHeader();
 

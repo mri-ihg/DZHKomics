@@ -11,17 +11,8 @@ use Dzhk;
 
 my $cgi         = new CGI;
 my $ref         = $cgi->Vars;
-my $dzhk	= new Dzhk;
 
 
-########################################################################
-# main
-########################################################################
+print $cgi->redirect( -URL => "search.pl" );
+0;
 
-$dzhk->init($ref);
-
-$dzhk->printHeader();
-
-$dzhk->about();
-
-$dzhk->printFooter();
